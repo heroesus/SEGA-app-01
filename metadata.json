@@ -1,0 +1,6 @@
+{
+  "name": "Sega MD ArtMoney",
+  "description": "ArtMoney memory search engine, save state patcher, hex editor & cheat generator for Sega MegaDrive emulators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
