@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: SEGA-app-01
+
     steps:
     - uses: actions/checkout@v4
     
@@ -32,4 +36,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: my-app-apk
-        path: app/build/outputs/apk/debug/*.apk
+        path: SEGA-app-01/app/build/outputs/apk/debug/*.apk
+        
