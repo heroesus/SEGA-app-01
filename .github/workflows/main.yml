@@ -9,10 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: SEGA-app-01
-
     steps:
     - uses: actions/checkout@v4
     
@@ -22,19 +18,23 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Gradle wrapper if missing
+    - name: Find Project Directory and Build APK
       run: |
-        if [ ! -f "gradlew" ]; then
-          gradle wrapper --gradle-version 8.2
-        fi
+        # Автоматически находим, в какой папке лежит build.gradle или build.gradle.kts
+        GRADLE_DIR=$(find . -name "build.gradle*" -not -path "*/build/*" | head -n 1 | xargs dirname)
+        echo "Проект найден в папке: $GRADLE_DIR"
+        cd "$GRADLE_DIR"
+        
+        # Генерируем локальный wrapper для сборки
+        gradle wrapper --gradle-version 8.2
         chmod +x gradlew
-
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug
+        
+        # Запускаем сборку приложения
+        ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: my-app-apk
-        path: SEGA-app-01/app/build/outputs/apk/debug/*.apk
+        path: "**/build/outputs/apk/debug/*.apk"
         
